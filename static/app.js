@@ -1,6 +1,6 @@
 /* ═══ app.js — DocuAgent Frontend Logic ═══ */
 
-const API = 'http://localhost:8000';
+const API = window.location.origin;
 
 // ── DOM refs ──
 const dropZone    = document.getElementById('drop-zone');
