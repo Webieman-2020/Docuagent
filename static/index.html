@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DocuAgent — Intelligent Document Processing</title>
+  <meta name="description" content="Multi-agent AI system that autonomously processes, classifies, extracts, validates and routes business documents." />
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+<div id="app">
+
+  <!-- ── Navbar ── -->
+  <nav>
+    <div class="nav-brand">
+      <span class="nav-logo">📄</span>
+      <span class="nav-name">DocuAgent</span>
+      <span class="nav-tag">Multi-Agent AI</span>
+    </div>
+    <div class="nav-status">
+      <span class="dot"></span>
+      <span>5 Agents Active</span>
+    </div>
+  </nav>
+
+  <!-- ── Hero ── -->
+  <div class="hero">
+    <h1 class="hero-title">Intelligent Document Processing</h1>
+    <p class="hero-sub">Upload any business document — autonomous agents classify, extract, validate &amp; route it in seconds.</p>
+  </div>
+
+  <!-- ── KPI Strip ── -->
+  <div class="kpi-strip">
+    <div class="kpi">
+      <div class="kpi-val">&lt; 5 sec</div>
+      <div class="kpi-label">Processing Time</div>
+      <div class="kpi-delta">↓ vs 30 min manual</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val">0</div>
+      <div class="kpi-label">Human Touchpoints</div>
+      <div class="kpi-delta">fully automated</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val">5</div>
+      <div class="kpi-label">Active Agents</div>
+      <div class="kpi-delta">+ Orchestrator</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val">~80%</div>
+      <div class="kpi-label">Cost Reduction</div>
+      <div class="kpi-delta">vs manual ops</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val">7</div>
+      <div class="kpi-label">Document Types</div>
+      <div class="kpi-delta">supported</div>
+    </div>
+  </div>
+
+  <!-- ── Main grid: agents sidebar + upload + pipeline ── -->
+  <div class="grid-2">
+
+    <!-- LEFT: Agent panel -->
+    <div>
+      <div class="panel" style="margin-bottom:20px;">
+        <div class="panel-label">Pipeline</div>
+        <div class="agents-list" id="agents-list">
+
+          <div class="agent-item" data-idx="0">
+            <span class="agent-icon">📥</span>
+            <div>
+              <div class="agent-name">Ingestion Agent</div>
+              <ul class="agent-tasks">
+                <li>File validation &amp; integrity check</li>
+                <li>Metadata extraction</li>
+                <li>Format normalisation</li>
+              </ul>
+            </div>
+            <span class="agent-status-icon"></span>
+          </div>
+
+          <div class="agent-item" data-idx="1">
+            <span class="agent-icon">🔍</span>
+            <div>
+              <div class="agent-name">Classification Agent</div>
+              <ul class="agent-tasks">
+                <li>Content signal analysis</li>
+                <li>Document type identification</li>
+                <li>Confidence scoring &amp; broadcast</li>
+              </ul>
+            </div>
+            <span class="agent-status-icon"></span>
+          </div>
+
+          <div class="agent-item" data-idx="2">
+            <span class="agent-icon">📊</span>
+            <div>
+              <div class="agent-name">Extraction Agent</div>
+              <ul class="agent-tasks">
+                <li>Schema selection by type</li>
+                <li>Field extraction (AI + regex)</li>
+                <li>Structured payload assembly</li>
+              </ul>
+            </div>
+            <span class="agent-status-icon"></span>
+          </div>
+
+          <div class="agent-item" data-idx="3">
+            <span class="agent-icon">✅</span>
+            <div>
+              <div class="agent-name">Validation Agent</div>
+              <ul class="agent-tasks">
+                <li>Required field checks</li>
+                <li>Numeric sanity (amount &gt; 0)</li>
+                <li>Completeness &amp; confidence scoring</li>
+              </ul>
+            </div>
+            <span class="agent-status-icon"></span>
+          </div>
+
+          <div class="agent-item" data-idx="4">
+            <span class="agent-icon">🚦</span>
+            <div>
+              <div class="agent-name">Routing Agent</div>
+              <ul class="agent-tasks">
+                <li>Business rule evaluation</li>
+                <li>Queue assignment &amp; SLA</li>
+                <li>Next-step action list</li>
+              </ul>
+            </div>
+            <span class="agent-status-icon"></span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Supported types -->
+      <div class="panel">
+        <div class="panel-label">Supported Document Types</div>
+        <table class="kv">
+          <tr><td>📑</td><td>Invoice</td></tr>
+          <tr><td>🪪</td><td>KYC Form</td></tr>
+          <tr><td>📝</td><td>Contract</td></tr>
+          <tr><td>🧾</td><td>Receipt</td></tr>
+          <tr><td>🏥</td><td>Insurance Claim</td></tr>
+          <tr><td>🏦</td><td>Loan Document</td></tr>
+          <tr><td>📦</td><td>Shipping Form</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- RIGHT: Upload + pipeline + results -->
+    <div>
+      <div id="error-banner" class="error-banner"></div>
+
+      <!-- Upload -->
+      <div class="panel" style="margin-bottom:20px;">
+        <div class="panel-label">Upload</div>
+        <div class="upload-zone" id="drop-zone">
+          <input type="file" id="file-input"
+            accept=".txt,.csv,.png,.jpg,.jpeg,.tiff,.bmp,.webp" />
+          <div class="upload-icon">📂</div>
+          <div class="upload-main">Drop your document here</div>
+          <div class="upload-sub">Invoice · KYC · Contract · Receipt · Insurance Claim · Loan · Shipping<br>
+            Supports TXT, CSV, PNG, JPG, TIFF, BMP, WEBP</div>
+        </div>
+
+        <!-- File preview -->
+        <div class="file-preview" id="file-preview">
+          <span class="file-icon">📄</span>
+          <div>
+            <div class="file-name" id="file-name">—</div>
+            <div class="file-meta" id="file-meta">—</div>
+          </div>
+        </div>
+
+        <!-- Type selector for images -->
+        <div class="type-select-wrap" id="type-select-wrap">
+          <div class="type-label">📷 Image detected — select document type for accurate extraction:</div>
+          <select class="type-select" id="type-select">
+            <option value="Auto-detect">Auto-detect</option>
+            <option value="Invoice" selected>Invoice</option>
+            <option value="KYC Form">KYC Form</option>
+            <option value="Contract">Contract</option>
+            <option value="Receipt">Receipt</option>
+            <option value="Insurance Claim">Insurance Claim</option>
+            <option value="Loan Document">Loan Document</option>
+            <option value="Shipping Form">Shipping Form</option>
+          </select>
+        </div>
+
+        <button class="btn-run" id="btn-run">⚡&nbsp; Run Agent Pipeline</button>
+      </div>
+
+      <!-- Pipeline status -->
+      <div class="panel" style="margin-bottom:20px;">
+        <div class="panel-label">Pipeline Status</div>
+
+        <div class="step-row">
+          <div class="step-badge" data-step="0">📥 Ingest</div>
+          <div class="step-badge" data-step="1">🔍 Classify</div>
+          <div class="step-badge" data-step="2">📊 Extract</div>
+          <div class="step-badge" data-step="3">✅ Validate</div>
+          <div class="step-badge" data-step="4">🚦 Route</div>
+          <div class="step-badge" data-step="5">🏁 Done</div>
+        </div>
+
+        <div class="progress-wrap">
+          <div class="progress-label">
+            <span>Progress</span>
+            <span id="progress-pct">0%</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+          </div>
+        </div>
+
+        <div style="font-size:.78rem;color:var(--c-muted);margin-bottom:8px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;">
+          Agent Communication Log
+        </div>
+        <div class="log-wrap" id="log-wrap">
+          <div class="log-line" style="color:rgba(140,140,170,.55);">Waiting for document upload…</div>
+        </div>
+      </div>
+
+      <!-- Results injected here -->
+      <div id="results">
+        <div class="idle-msg">
+          <div class="idle-icon">📋</div>
+          <div class="idle-text">Upload a document and run the pipeline to see results here.</div>
+        </div>
+      </div>
+
+    </div><!-- /right col -->
+  </div><!-- /grid-2 -->
+</div><!-- /app -->
+
+<script src="/static/app.js"></script>
+</body>
+</html>
